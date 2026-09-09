@@ -1,3 +1,4 @@
+import { getImageUrl } from '../services/api';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
