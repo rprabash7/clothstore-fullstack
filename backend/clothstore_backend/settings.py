@@ -121,7 +121,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'https://clothstore-fullstack.onrender.com',
 ]
-
 # React sends this custom header for guest cart tracking.
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'x-session-id',
