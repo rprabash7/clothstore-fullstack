@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/auth/', include('accounts.urls')),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Local + Render demo kosam uploaded product images serve cheyyadam
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
