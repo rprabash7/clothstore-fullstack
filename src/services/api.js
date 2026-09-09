@@ -116,4 +116,21 @@ export const login = async (email, otp) => {
   return response.data;
 };
 
+const BACKEND_URL = 'https://clothstore-backend-j2cx.onrender.com';
+
+export const getImageUrl = (imagePath) => {
+  if (!imagePath) {
+    return '/placeholder.jpg';
+  }
+
+  if (
+    imagePath.startsWith('http://') ||
+    imagePath.startsWith('https://')
+  ) {
+    return imagePath;
+  }
+
+  return `${BACKEND_URL}${imagePath}`;
+};
+
 export default api;
