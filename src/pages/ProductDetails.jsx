@@ -1,7 +1,6 @@
-import { getImageUrl, getProduct } from '../services/api';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProduct } from '../services/api';
+import { getImageUrl, getProduct } from '../services/api';
 import { useCart } from '../context/CartContext';
 
 const ProductDetails = () => {
@@ -77,10 +76,13 @@ const ProductDetails = () => {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>
           <img
-  src={getImageUrl(product.image)}
-  alt={product.name}
-  className="w-full rounded-lg object-cover shadow-md"
-/>
+            src={getImageUrl(product.image)}
+            alt={product.name}
+            className="w-full rounded-lg object-cover shadow-md"
+            onError={(event) => {
+              event.currentTarget.src = '/placeholder.jpg';
+            }}
+          />
         </div>
 
         <div>
@@ -154,4 +156,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;  
+export default ProductDetails;
