@@ -143,8 +143,18 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+<<<<<<< HEAD
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+=======
+
+EMAIL_HOST_USER = 'prabashr07@gmail.com'
+
+# Ikada new 16-character Gmail App Password pettandi.
+# Spaces lekunda pettandi.
+EMAIL_HOST_PASSWORD = 'qqlc twwa thxd iwmu'
+
+>>>>>>> 336322b (second commit)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 30
 
