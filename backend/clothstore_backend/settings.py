@@ -1,13 +1,28 @@
+import os
 from pathlib import Path
+
 from corsheaders.defaults import default_headers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-kgsevehe-+0^jlznye6z*&a+r(v^r4!7=yha!)&qo3dh=i96_u'
+# Local lo fallback untundi. Render lo environment variable value use avtundi.
+SECRET_KEY = os.getenv(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-local-development-key'
+)
 
-DEBUG = True
+# Local development lo True, Render lo False
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# Render domain + local domains
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        'ALLOWED_HOSTS',
+        '127.0.0.1,localhost,clothstore-backend.onrender.com'
+    ).split(',')
+    if host.strip()
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -17,18 +32,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third-party apps
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
 
-    # Local apps
     'products',
     'accounts',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'clothstore_backend.wsgi.application'
 
+# Current SQLite database. Local testing ki okay.
+# Note: Render free service restart/deploy ayithe SQLite data persist avvakapovachu.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,18 +101,19 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# React Vite frontend allowed origins
+# Local React + deployed Render frontend
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'https://clothstore-fullstack.onrender.com',
 ]
 
-# React API request lo pampinche custom X-Session-ID header ni allow cheyyadam
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'x-session-id',
 ]
@@ -109,18 +127,15 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Gmail SMTP settings
+# SMTP values Render Environment Variables nunchi vastayi.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-
-EMAIL_HOST_USER = 'prabashr07@gmail.com'
-
-# Ikada new 16-character Gmail App Password pettandi.
-# Spaces lekunda pettandi.
-EMAIL_HOST_PASSWORD = 'mfgr yhre skns umjg'
-
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 30
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
