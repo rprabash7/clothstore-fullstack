@@ -6,10 +6,10 @@ const ProductCard = ({ product }) => {
     <div className="overflow-hidden rounded-lg bg-white shadow-md transition hover:shadow-xl">
       <Link to={`/product/${product.id}`}>
         <img
-          src={product.image || '/placeholder.jpg'}
-          alt={product.name}
-          className="h-64 w-full object-cover"
-        />
+  src={getImageUrl(product.image)}
+  alt={product.name}
+  className="h-64 w-full object-cover"
+/>
       </Link>
 
       <div className="p-4">
