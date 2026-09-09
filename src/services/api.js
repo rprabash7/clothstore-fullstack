@@ -116,7 +116,9 @@ export const login = async (email, otp) => {
   return response.data;
 };
 
-const BACKEND_URL = 'https://clothstore-backend-j2cx.onrender.com';
+const BACKEND_URL =
+  import.meta.env.VITE_API_URL?.replace('/api/', '') ||
+  'http://127.0.0.1:8000';
 
 export const getImageUrl = (imagePath) => {
   if (!imagePath) {
