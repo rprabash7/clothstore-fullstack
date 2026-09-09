@@ -1,3 +1,4 @@
+import { getImageUrl, getProduct } from '../services/api';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProduct } from '../services/api';
@@ -76,10 +77,10 @@ const ProductDetails = () => {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div>
           <img
-            src={product.image || '/placeholder.jpg'}
-            alt={product.name}
-            className="w-full rounded-lg object-cover shadow-md"
-          />
+  src={getImageUrl(product.image)}
+  alt={product.name}
+  className="w-full rounded-lg object-cover shadow-md"
+/>
         </div>
 
         <div>
