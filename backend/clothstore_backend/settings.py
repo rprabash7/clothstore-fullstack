@@ -17,15 +17,7 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 # Local + actual Render backend domain
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv(
-        'ALLOWED_HOSTS',
-        '127.0.0.1,localhost,clothstore-backend-r7rc.onrender.com'
-    ).split(',')
-    if host.strip()
-]
-
+ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
