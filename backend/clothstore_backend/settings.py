@@ -5,21 +5,23 @@ from corsheaders.defaults import default_headers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Local lo fallback untundi. Render lo environment variable value use avtundi.
+# Local lo fallback key untundi.
+# Render lo DJANGO_SECRET_KEY environment variable use avtundi.
 SECRET_KEY = os.getenv(
     'DJANGO_SECRET_KEY',
     'django-insecure-local-development-key'
 )
 
-# Local development lo True, Render lo False
+# Local development lo default True.
+# Render Environment Variables lo DEBUG=False pettali.
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-# Render domain + local domains
+# Local + actual Render backend domain
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
         'ALLOWED_HOSTS',
-        '127.0.0.1,localhost,clothstore-backend.onrender.com'
+        '127.0.0.1,localhost,clothstore-backend-r7rc.onrender.com'
     ).split(',')
     if host.strip()
 ]
@@ -32,16 +34,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third-party apps
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
 
+    # Local apps
     'products',
     'accounts',
 ]
 
 MIDDLEWARE = [
+    # CORS should stay first
     'corsheaders.middleware.CorsMiddleware',
+
+    # Static files for Render
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
@@ -72,8 +79,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'clothstore_backend.wsgi.application'
 
-# Current SQLite database. Local testing ki okay.
-# Note: Render free service restart/deploy ayithe SQLite data persist avvakapovachu.
+# Current database: SQLite.
+# Local testing ki correct.
+# Render free instance restart/deploy ayithe SQLite data persist avvakapovachu.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -107,13 +115,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Local React + deployed Render frontend
+# React local frontend + deployed Render frontend
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'https://clothstore-fullstack.onrender.com',
 ]
 
+# React sends this custom header for guest cart tracking.
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'x-session-id',
 ]
@@ -127,7 +136,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-# SMTP values Render Environment Variables nunchi vastayi.
+# Gmail SMTP credentials will come only from Render Environment Variables.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
